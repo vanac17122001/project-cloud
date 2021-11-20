@@ -1,0 +1,13 @@
+Nhóm 2 đề tài sử dụng docker để ảo hóa server Ubuntu
+Thành viên
+Võ Phúc Sơn - 17110360
+Nguyễn Toàn Khoa - 17110317
+Võ Thành Đạt - 17110280
+
+Nhóm em xây dựng website java trên IDE eclipse
+Bước 1: tạo 1 container sql và import database đính kèm trong github usercloud trên ec2
+Bước 2: chạy container sql
+Bước 3: trông phần src/main/java 
+phần vn.cloud.connection thay đổi các thông số chúng em đã ghi chú ở file Dbconnect.java
+Bước 4 :vn.cloud.dao thay đổi các thông số chúng em đã ghi chú ở file HomeDao.java
+Bước 5: Tạo tài khoản hoặc kiểm tra database để lấy tài khoản (role =1 là quyền quản trị)

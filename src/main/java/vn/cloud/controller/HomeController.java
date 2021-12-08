@@ -2,9 +2,7 @@ package vn.cloud.controller;
 
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.CheckTime;
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
 import vn.cloud.model.DetailModel;;
@@ -30,31 +30,36 @@ public class HomeController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
+		String ec2ip ="";
+		String server = req.getParameter("server");
+		if(server.equals("1"))
+		{
+			ec2ip = Config.ipServer1;
+		}
+		if(server.equals("2"))
+		{
+			ec2ip = Config.ipServer2;
+		}
+		if(server.equals("3"))
+		{
+			ec2ip = Config.ipServer3;
+		}
 		if(info.getRole() == 0)
 		{
 			String name = "user" + Integer.toString(info.getId()) + "-";
+			CheckTime check = new CheckTime();
+			check.checkTimeContainner(name, ec2ip);
 			  HomeDao p = new HomeDao(); 
-			  List<DetailModel> list; 
-			  try { 
-				  list =p.getDetail(name);
-			  Date nowTime = new Date();
-			  for(DetailModel detail : list)
-			  {
-				  Date pastTime = p.checktime(detail.getName());
-				  if(pastTime !=null)
-				  {
-					  if(TimeUnit.MILLISECONDS.toSeconds(nowTime.getTime() - pastTime.getTime()) >= 120)
-					  {
-						  p.stopContainer(detail.getId());
-					  }
-				  }
-			  }
-			  req.setAttribute("listC", list);
-			  } 
-			  catch (JSchException e) 
-			  {
-			  e.printStackTrace(); 
-			  }
+			  List<DetailModel> newlist; 
+			  try {
+				newlist = p.getDetail(name, ec2ip);
+				req.setAttribute("listC", newlist);
+			} catch (JSchException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+			req.setAttribute("server",server);
 			resp.setHeader("Refresh", "60");
 			RequestDispatcher rq = req.getRequestDispatcher("/views/home.jsp");
 			rq.forward(req, resp);

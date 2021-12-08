@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
 
@@ -48,11 +49,25 @@ public class CreateController extends HttpServlet {
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		String port = hd.maxPort();
-		String cname = "user" +Integer.toString(info.getId()) +"-" + os + "-" + port; 
+		String cname = "user" +Integer.toString(info.getId()) +"-" + os + "-" + port;
+		String ec2ip ="";
+		String server = req.getParameter("server");
+		if(server.equals("1"))
+		{
+			ec2ip = Config.ipServer1;
+		}
+		if(server.equals("2"))
+		{
+			ec2ip = Config.ipServer2;
+		}
+		if(server.equals("3"))
+		{
+			ec2ip = Config.ipServer3;
+		}
 		if(os.equals("Ubuntu"))
 		{
 			try {
-				hd.createContainer(cname,"sonvo123/os:ubuntu", ram, cpu, port);
+				hd.createContainer(cname,"sonvo123/os:ubuntu", ram, cpu, port,ec2ip ,info.getId());
 			} catch (JSchException e) {
 				e.printStackTrace();
 			}
@@ -60,13 +75,13 @@ public class CreateController extends HttpServlet {
 		if(os.equals("Centos"))
 		{
 			try {
-				hd.createContainer(cname,"sonvo123/os:centos", ram, cpu, port);
+				hd.createContainer(cname,"sonvo123/os:centos", ram, cpu, port,ec2ip,info.getId());
 			} catch (JSchException e) {
 				e.printStackTrace();
 			}
 		}
 		hd.insertCreate(cname, info.getId(), ram, cpu, port);
-		resp.sendRedirect("home");
+		resp.sendRedirect("home?server="+ server);
 	}
 
 }

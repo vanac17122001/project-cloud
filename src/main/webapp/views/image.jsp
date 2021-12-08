@@ -92,9 +92,9 @@
 												<td>${o.size}</td>
 												<td>
 												<div class="btn-group btn-group-justified">
-													 <a href="<c:url value="/createfromimage?os=${o.repository}:${o.tag}"/>"
+													 <a href="<c:url value="/createfromimage?os=${o.repository}:${o.tag}&&server=${server}"/>"
 															class="btn btn-success text-white ">Tạo container</a> <a
-															href="<c:url value="/removeimage?imageid=${o.imageId}"/>"
+															href="<c:url value="/removeimage?imageid=${o.imageId}&&server=${server}"/>"
 															class="btn btn-danger text-white">Xóa</a> 
 													</div>
 												</td>

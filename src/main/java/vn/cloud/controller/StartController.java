@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
 
@@ -29,22 +30,38 @@ public class StartController extends HttpServlet {
 		System.out.println(cid);
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
+		String ec2ip ="";
+		String server = req.getParameter("server");
+		if(server.equals("1"))
+		{
+			ec2ip = Config.ipServer1;
+		}
+		if(server.equals("2"))
+		{
+			ec2ip = Config.ipServer2;
+		}
+		if(server.equals("3"))
+		{
+			ec2ip = Config.ipServer3;
+		}
 		try {
-			hd.startContainer(cid);
+			hd.startContainer(cid,ec2ip);
+			if(info.getRole() == 0)
+			{
 			Date nowdate = new Date();
 			hd.setTime(nowdate, cName);
-			System.out.println(nowdate.getTime());
+			}
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(info.getRole() == 0)
 		{
-		resp.sendRedirect("home");
+		resp.sendRedirect("home?server="+ server);
 		}
 		else
 		{
-			resp.sendRedirect("admincontainer");
+			resp.sendRedirect("admincontainer?server=" + server);
 		}
 	}
 	

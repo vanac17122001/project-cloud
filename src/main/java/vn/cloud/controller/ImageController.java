@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.CheckTime;
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.ImageModel;
 import vn.cloud.model.LoginModel;
@@ -31,14 +33,31 @@ public class ImageController extends HttpServlet {
 		if (info.getRole() == 0) {
 			String name = "user" + Integer.toString(info.getId()) + "-";
 			HomeDao p = new HomeDao();
+			String ec2ip ="";
+			String server = req.getParameter("server");
+			if(server.equals("1"))
+			{
+				ec2ip = Config.ipServer1;
+			}
+			if(server.equals("2"))
+			{
+				ec2ip = Config.ipServer2;
+			}
+			if(server.equals("3"))
+			{
+				ec2ip = Config.ipServer3;
+			}
+			CheckTime check = new CheckTime();
+			check.checkTimeContainner(name, ec2ip);
 			List<ImageModel> list;
 			try {
-				list = p.listImage(name);
+				list = p.listImage(name,ec2ip);
 				req.setAttribute("listI", list);
 			} catch (JSchException e) {
 				e.printStackTrace();
 			}
-
+			req.setAttribute("server",server);
+			resp.setHeader("Refresh", "60");
 			RequestDispatcher rq = req.getRequestDispatcher("/views/image.jsp");
 			rq.forward(req, resp);
 		} else {

@@ -19,21 +19,20 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+import vn.cloud.config.Config;
 import vn.cloud.connection.DBconnect;
 import vn.cloud.model.DetailModel;
 import vn.cloud.model.ImageModel;
 
 public class HomeDao {
-	String ip = "172.31.23.162"; // thầy thay đổi địa chỉ ip public ec2
-	String privateKeyPath = "/home/ubuntu/vophucson_aws.pem"; // thay đổi path của tệp khóa .pem của ec2
 	Connection conn = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 
-	public List<DetailModel> getDetail(String name) throws JSchException, IOException {
+	public List<DetailModel> getDetail(String name,String ec2ip) throws JSchException, IOException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -68,18 +67,18 @@ public class HomeDao {
 		return list;
 	}
 
-	public void createContainer(String name, String os, String ram, String cpu, String port)
+	public void createContainer(String name, String os, String ram, String cpu, String port,String ec2ip,int userId)
 			throws JSchException, IOException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
 		session.connect();
 		Channel channel = session.openChannel("exec");
 		((ChannelExec) channel).setCommand("docker create --name " + name + " " + " --memory=\"" + ram + "\""
-				+ " --cpus=\"" + cpu + "\" -p " + port + ":22 " + os);
+				+ " --cpus=\"" + cpu + "\" -p " + port + ":22 " + "-v /home/user" + userId+"/:/user" +userId+"/ " +os);
 		channel.connect();
 		((ChannelExec) channel).setErrStream(System.err);
 		channel.disconnect();
@@ -88,7 +87,7 @@ public class HomeDao {
 	}
 
 	public void insertCreate(String cname, int id, String ram, String cpu, String port) {
-		String sql = "insert into containers values(?,?,?,?,?,?)";
+		String sql = "insert into containers values(?,?,?,?,?,?,null)";
 		try {
 			// kết nối sql
 			conn = new DBconnect().getConnection();
@@ -150,10 +149,10 @@ public class HomeDao {
 		return null;
 	}
 
-	public void startContainer(String cid) throws JSchException {
+	public void startContainer(String cid,String ec2ip) throws JSchException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -167,10 +166,10 @@ public class HomeDao {
 
 	}
 
-	public void stopContainer(String cid) throws JSchException {
+	public void stopContainer(String cid,String ec2ip) throws JSchException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		try {
@@ -188,10 +187,10 @@ public class HomeDao {
 
 	}
 
-	public void remvoContainer(String cid) throws JSchException {
+	public void remvoContainer(String cid,String ec2ip) throws JSchException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -205,10 +204,10 @@ public class HomeDao {
 
 	}
 
-	public List<DetailModel> getAllContainer() throws JSchException, IOException {
+	public List<DetailModel> getAllContainer(String ec2ip) throws JSchException, IOException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -243,10 +242,10 @@ public class HomeDao {
 		return list;
 	}
 
-	public String publicIprealtime() throws JSchException, IOException {
+	public String publicIprealtime(String ec2ip) throws JSchException, IOException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -267,11 +266,11 @@ public class HomeDao {
 
 		return null;
 	}
-	public void createImage(String name,String containerId) throws JSchException 
+	public void createImage(String name,String containerId,String ec2ip) throws JSchException 
 	{
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -283,12 +282,12 @@ public class HomeDao {
 		channel.disconnect();
 		session.disconnect();
 	}
-	public List<ImageModel> listImage(String name) throws JSchException, IOException
+	public List<ImageModel> listImage(String name,String ec2ip) throws JSchException, IOException
 	{
 		List<ImageModel> list = new ArrayList<ImageModel>();
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -314,10 +313,10 @@ public class HomeDao {
 		}
 		return list;
 	}
-	public void removeImage(String imageId) throws JSchException {
+	public void removeImage(String imageId,String ec2ip) throws JSchException {
 		JSch jsch = new JSch();
-		jsch.addIdentity(privateKeyPath);
-		Session session = jsch.getSession("ubuntu", ip, 22);
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
 		Properties config = new Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
@@ -360,10 +359,33 @@ public class HomeDao {
 		}
 		return null;
 	}
+	public List<String> storage(String ec2ip,int userId) throws JSchException, IOException
+	{
+		JSch jsch = new JSch();
+		jsch.addIdentity(Config.privatekeyPath);
+		Session session = jsch.getSession("ubuntu", ec2ip, 22);
+		Properties config = new Properties();
+		config.put("StrictHostKeyChecking", "no");
+		session.setConfig(config);
+		session.connect();
+		Channel channel = session.openChannel("exec");
+		InputStream in = channel.getInputStream();
+		((ChannelExec) channel).setCommand("ls /home/user" + userId);
+		channel.connect();
+		((ChannelExec) channel).setErrStream(System.err);
 
-	public static void main(String[] args) throws IOException, JSchException {
-		HomeDao p = new HomeDao();
-		Date date = p.checktime("user3-Ubuntu-1019");
-		System.out.println(date.getTime());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		String line;
+		List<String> arr = new ArrayList<String>();
+		while ((line = reader.readLine()) != null) {
+			String test = line.replaceAll("\\s\\s+", ",");
+			String[] words = test.split(",");
+			for (String w : words) {
+				arr.add(w);
+			}
+			channel.disconnect();
+			session.disconnect();
+		}
+		return arr;
 	}
 }

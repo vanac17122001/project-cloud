@@ -67,10 +67,31 @@
 				</a></li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value ="/admincontainer"/>" aria-expanded="false"> <i
+					 aria-expanded="false"> <i
 						class="fa fa-table" aria-hidden="true"></i> <span
-						class="hide-menu">Danh sách tài Container</span>
+						class="hide-menu">Quản lý Container các Server</span>
 				</a></li>
+				<li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/admincontainer?server=1"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 1</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/admincontainer?server=2"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 2</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/admincontainer?server=3"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 3</span>
+                            </a>
+                        </li>
 				  <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/history"/>" aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>

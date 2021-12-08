@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
 @WebServlet(urlPatterns = {"/createfromimage"})
@@ -25,9 +26,11 @@ public class CreateFromImageController extends HttpServlet{
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		String os = req.getParameter("os");
+		String server = req.getParameter("server");
 		if(info.getRole() == 0)
 		{
 			req.setAttribute("os", os);
+			req.setAttribute("server", server);
 			RequestDispatcher rq = req.getRequestDispatcher("/views/createfromimage.jsp");
 			rq.forward(req, resp);
 		}
@@ -48,14 +51,28 @@ public class CreateFromImageController extends HttpServlet{
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		String port = hd.maxPort();
-		String cname = "user" +Integer.toString(info.getId()) +"-" + "yourImage" + "-" + port; 
+		String cname = "user" +Integer.toString(info.getId()) +"-" + "yourImage" + "-" + port;
+		String ec2ip ="";
+		String server = req.getParameter("server");
+		if(server.equals("1"))
+		{
+			ec2ip = Config.ipServer1;
+		}
+		if(server.equals("2"))
+		{
+			ec2ip = Config.ipServer2;
+		}
+		if(server.equals("3"))
+		{
+			ec2ip = Config.ipServer3;
+		}
 		try {
-			hd.createContainer(cname,os, ram, cpu, port);
+			hd.createContainer(cname,os, ram, cpu, port,ec2ip,info.getId());
 		} catch (JSchException e) {
 			e.printStackTrace();
 		}
 		hd.insertCreate(cname, info.getId(), ram, cpu, port);
-		resp.sendRedirect("home");
+		resp.sendRedirect("home?server="+ server);
 	}
 
 }

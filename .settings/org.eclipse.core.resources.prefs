@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/vn/cloud/config/Config.java=UTF-8
 encoding//src/main/java/vn/cloud/connection/DBconnect.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/LoginController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/RegisterController.java=UTF-8

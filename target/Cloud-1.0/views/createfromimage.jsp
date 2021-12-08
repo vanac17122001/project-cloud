@@ -102,6 +102,15 @@
 									</div>
 								</div>
 								<div class="form-group mb-4">
+									<label class="col-sm-12">Server</label>
+									<div class="col-sm-12 border-bottom">
+									<div>
+									${server}
+									<input type="hidden" value="${server}" name="server">
+									</div>
+									</div>
+								</div>
+								<div class="form-group mb-4">
 									<div class="col-sm-12">
 										<button class="btn btn-success">Tạo Container</button>
 									</div>

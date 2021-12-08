@@ -53,7 +53,7 @@ public class LoginController extends HttpServlet {
 				HttpSession session = req.getSession();
 				session.setAttribute("info", info);
 				if (info.getRole() == 0) {
-					resp.sendRedirect("home");
+					resp.sendRedirect("home?server=1");
 				} else {
 					resp.sendRedirect("adminhome");
 				}

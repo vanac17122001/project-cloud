@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jcraft.jsch.JSchException;
 
+import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 
 
@@ -26,9 +27,23 @@ public class ConnectController extends HttpServlet{
 		HomeDao hd = new HomeDao();
 		String port = hd.port(name);
 		req.setAttribute("port",port);
-		String publicip;
+		String publicip = "";
+		String ec2ip ="";
+		String server = req.getParameter("server");
+		if(server.equals("1"))
+		{
+			ec2ip = Config.ipServer1;
+		}
+		if(server.equals("2"))
+		{
+			ec2ip = Config.ipServer2;
+		}
+		if(server.equals("3"))
+		{
+			ec2ip = Config.ipServer3;
+		}
 		try {
-			publicip = hd.publicIprealtime();
+			publicip = hd.publicIprealtime(ec2ip);
 			req.setAttribute("publicip", publicip);
 		} catch (JSchException e) {
 			// TODO Auto-generated catch block

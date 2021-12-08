@@ -92,15 +92,15 @@
 												<td>${o.status}</td>
 												<td>${o.ports}</td>
 												<td>${o.image}</td>
-												<td>
+												<td>	
 													<div class="btn-group btn-group-justified">
-														<a href="<c:url value="/connect?name=${o.name}"/>" target="_blank"
-															class="btn btn-info text-white ">Kết nối</a> <a href="<c:url value="/startC?cid=${o.id}&&name=${o.name}"/>"
+														<a href="<c:url value="/connect?name=${o.name}&&server=${server}"/>" target="_blank"
+															class="btn btn-info text-white ">Kết nối</a> <a href="<c:url value="/startC?cid=${o.id}&&name=${o.name}&&server=${server}"/>"
 															class="btn btn-success text-white ">Khởi động</a> <a
-															href="<c:url value="/stopC?cid=${o.id}"/>"
-															class="btn btn-danger text-white">Tắt</a> <a href="<c:url value="/removeC?cid=${o.name}"/>"
+															href="<c:url value="/stopC?cid=${o.id}&&server=${server}"/>"
+															class="btn btn-danger text-white">Tắt</a> <a href="<c:url value="/removeC?cid=${o.name}&&server=${server}"/>"
 															 class="btn btn-warning text-white ">Xóa</a>
-															 <a href="<c:url value="/createimage?cid=${o.id}&&name=${o.name}"/>"
+															 <a href="<c:url value="/createimage?cid=${o.id}&&name=${o.name}&&server=${server}"/>"
 															 class="btn btn-primary text-white ">Tạo Image</a>
 													</div>
 												</td>

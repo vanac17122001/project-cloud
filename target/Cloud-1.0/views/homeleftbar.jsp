@@ -62,10 +62,31 @@
 				<!-- User Profile-->
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value ="/home"/>" aria-expanded="false"> <i
-						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Trang
-							chính</span>
+			 aria-expanded="false"> <i
+						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Container của bạn
+							</span>
 				</a></li>
+				   <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=1"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 1</span>
+                            </a>
+                        </li>
+                          <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=2"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 2</span>
+                            </a>
+                        </li>
+                          <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=3"/>"
+                                aria-expanded="false">
+                                <i class="far fa-clock" aria-hidden="true"></i>
+                                <span class="hide-menu">Container Server 3</span>
+                            </a>
+                        </li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
 					href="<c:url value = "/create"/>" aria-expanded="false"> <i
@@ -74,10 +95,52 @@
 				</a></li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value = "/image"/>" aria-expanded="false"> <i
-						class="fa fa-info-circle" aria-hidden="true"></i> <span
-						class="hide-menu">Image của bạn</span>
+			 aria-expanded="false"> <i
+						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Image của bạn
+							</span>
 				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/image?server=1"/>" aria-expanded="false"> <i
+						class="fa fa-info-circle" aria-hidden="true"></i> <span
+						class="hide-menu">Image Server 1</span>
+				</a></li>
+					<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/image?server=2"/>" aria-expanded="false"> <i
+						class="fa fa-info-circle" aria-hidden="true"></i> <span
+						class="hide-menu">Image Server 2</span>
+				</a></li>
+					<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/image?server=3"/>" aria-expanded="false"> <i
+						class="fa fa-info-circle" aria-hidden="true"></i> <span
+						class="hide-menu">Image Server 3</span>
+				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+			 aria-expanded="false"> <i
+						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Thư mục lưu trữu của bạn
+							</span>
+				</a></li>
+				 <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=1"/>" aria-expanded="false">
+                                <i class="fa fa-columns" aria-hidden="true"></i>
+                                <span class="hide-menu">Storage Server 1</span>
+                            </a>
+                        </li>
+                         <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=2"/>" aria-expanded="false">
+                                <i class="fa fa-columns" aria-hidden="true"></i>
+                                <span class="hide-menu">Storage Server 2</span>
+                            </a>
+                        </li>
+                         <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=3"/>" aria-expanded="false">
+                                <i class="fa fa-columns" aria-hidden="true"></i>
+                                <span class="hide-menu">Storage Server 3</span>
+                            </a>
+                        </li>
 			</ul>
 
 		</nav>

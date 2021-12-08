@@ -103,6 +103,17 @@
 									</div>
 								</div>
 								<div class="form-group mb-4">
+									<label class="col-sm-12">Chọn Server</label>
+									<div class="col-sm-12 border-bottom">
+										<select
+											class="form-select shadow-none p-0 border-0 form-control-line" name="server">
+											<option value="1">Server 1</option>
+											<option value="2">Server 2</option>
+											<option value="3">Server 3</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group mb-4">
 									<div class="col-sm-12">
 										<button class="btn btn-success">Tạo Container</button>
 									</div>
